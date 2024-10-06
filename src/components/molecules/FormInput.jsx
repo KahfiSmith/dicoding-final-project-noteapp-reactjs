@@ -29,7 +29,7 @@ const FormInput = ({ handleSubmit }) => {
         onChange={handleChangeDescription}
         placeholder="Masukkan deskripsi"
       />
-      <Button />
+      <Button type="submit"/>
     </form>
   );
 };
