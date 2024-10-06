@@ -4,6 +4,7 @@ import HeaderNote from "../components/atoms/Header";
 import Layout from "../layouts";
 import FormInput from "../components/molecules/FormInput";
 import { Archive, ArchiveRestore } from "lucide-react";
+import { notesData } from "../utils/initialDataNotes";
 
 const Notes = () => {
   const [filterSearch, setFilterSearch] = useState("");
@@ -18,34 +19,32 @@ const Notes = () => {
         children1={<FormInput handleSubmit={() => {}} />}
         children2={
           <div className="flex flex-col space-y-4">
-            <CardNote
-              title="Belajar React Dicoding"
-              date="10 Januari 2023"
-              description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsam modi ex numquam cupiditate incidunt rerum nihil. Unde, voluptatum exercitationem"
-              icon={<Archive />}
-            />
-            <CardNote
-              title="Belajar React Dicoding"
-              date="10 Januari 2023"
-              description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsam modi ex numquam cupiditate incidunt rerum nihil. Unde, voluptatum exercitationem"
-              icon={<Archive />}
-            />
+            {notesData
+              .filter((note) => !note.archived)
+              .map((note) => (
+                <CardNote
+                  key={note.id}
+                  title={note.title}
+                  date={note.createdAt}
+                  description={note.body}
+                  icon={<Archive />}
+                />
+              ))}
           </div>
         }
         children3={
           <div className="flex flex-col space-y-4">
-            <CardNote
-              title="Belajar React Dicoding"
-              date="10 Januari 2023"
-              description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsam modi ex numquam cupiditate incidunt rerum nihil. Unde, voluptatum exercitationem"
-              icon={<ArchiveRestore />}
-            />
-            <CardNote
-              title="Belajar React Dicoding"
-              date="10 Januari 2023"
-              description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsam modi ex numquam cupiditate incidunt rerum nihil. Unde, voluptatum exercitationem"
-              icon={<ArchiveRestore />}
-            />
+            {notesData
+              .filter((note) => note.archived)
+              .map((note) => (
+                <CardNote
+                  key={note.id}
+                  title={note.title}
+                  date={note.createdAt}
+                  description={note.body}
+                  icon={<ArchiveRestore />}
+                />
+              ))}
           </div>
         }
       />
