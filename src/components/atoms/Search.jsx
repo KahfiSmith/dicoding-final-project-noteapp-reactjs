@@ -1,5 +1,5 @@
 import { Search } from "lucide-react";
-import Input from "./Input";
+import Input from "./input";
 
 const SearchNote = ({ filterSearch, setFilterSearch }) => {
   return (
