@@ -1,4 +1,4 @@
-import { generateNoteId } from "./generateNoteId ";
+import { generateNoteId } from "./generateNoteId";
 
 const initialNotesData = [
   {

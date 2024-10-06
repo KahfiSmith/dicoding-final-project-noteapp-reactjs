@@ -16,7 +16,7 @@ const FormInput = ({ handleSubmit }) => {
 
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={(e) => handleSubmit(e, inputValue, inputDescription)}
       className="flex flex-col w-full justify-center items-center space-y-4"
     >
       <Input
