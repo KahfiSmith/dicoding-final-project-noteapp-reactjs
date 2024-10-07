@@ -27,7 +27,6 @@ const Notes = () => {
     };
 
     setNotes((prevNotes) => [...prevNotes, newNote]);
-    console.log(newNote);
 
     toast.success("Catatan berhasil ditambahkan!", {
       position: "top-right",
@@ -74,8 +73,12 @@ const Notes = () => {
     });
   };
 
-  const activeNotes = notes.filter((note) => !note.archived);
-  const archivedNotes = notes.filter((note) => note.archived);
+  const filteredNotes = notes.filter((note) =>
+    note.title.toLowerCase().includes(filterSearch.toLowerCase())
+  );
+
+  const activeNotes = filteredNotes.filter((note) => !note.archived);
+  const archivedNotes = filteredNotes.filter((note) => note.archived);
 
   return (
     <>
@@ -109,7 +112,7 @@ const Notes = () => {
                 />
               ))
             ) : (
-              <p>Tidak ada catatan</p> 
+              <p>Tidak ada catatan</p>
             )}
           </div>
         }

@@ -11,9 +11,10 @@ const FormInput = ({ handleSubmit, resetTrigger }) => {
   const handleChange = (e) => {
     const input = e.target.value;
 
+    setRemainingChars(50 - input.length);
+
     if (input.length <= 50) {
       setInputValue(input);
-      setRemainingChars(50 - input.length);
     }
   };
 
@@ -35,7 +36,11 @@ const FormInput = ({ handleSubmit, resetTrigger }) => {
       className="flex flex-col w-full justify-center items-center space-y-4"
     >
       <div className="flex justify-end w-full -mb-2">
-        <p>{remainingChars} karakter tersisa</p>
+        <p>
+          {remainingChars >= 0
+            ? `${remainingChars} karakter tersisa`
+            : "Karakter melebihi batas 50 karakter!"}
+        </p>
       </div>
       <Input
         value={inputValue}

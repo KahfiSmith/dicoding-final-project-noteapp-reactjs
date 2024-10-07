@@ -7,7 +7,7 @@ const SearchNote = ({ filterSearch, setFilterSearch }) => {
       <Search className="absolute left-2 text-slate-400" />
       <Input
         value={filterSearch}
-        onChange={(event) => setFilterSearch(event.target.value)}
+        onChange={(e) => setFilterSearch(e.target.value)}
         placeholder="Cari catatan..."
         className="pl-10"
       />
