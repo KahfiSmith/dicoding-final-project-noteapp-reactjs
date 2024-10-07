@@ -4,13 +4,16 @@ import HeaderNote from "../components/atoms/Header";
 import Layout from "../layouts";
 import FormInput from "../components/molecules/FormInput";
 import { Archive, ArchiveRestore } from "lucide-react";
-import { notesData as initialNotesData } from "../utils/initialDataNotes";
-import { generateNoteId } from "../utils/generateNoteId";
-import { formatDate } from "../utils/formatDate";
+import { notesData as initialNotesData } from "../lib/utils/initialDataNotes";
+import { generateNoteId } from "../lib/utils/generateNoteId";
+import { formatDate } from "../lib/helpers/formatDate";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Notes = () => {
   const [notes, setNotes] = useState(initialNotesData);
   const [filterSearch, setFilterSearch] = useState("");
+  const [resetTrigger, setResetTrigger] = useState(false);
 
   const handleSubmit = (e, title, description) => {
     e.preventDefault();
@@ -24,6 +27,18 @@ const Notes = () => {
     };
 
     setNotes([...notes, newNote]);
+
+    toast.success("Catatan berhasil ditambahkan!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+    });
+
+    setResetTrigger((prev) => !prev);
   };
 
   return (
@@ -33,7 +48,9 @@ const Notes = () => {
         setFilterSearch={setFilterSearch}
       />
       <Layout
-        children1={<FormInput handleSubmit={handleSubmit} />}
+        children1={
+          <FormInput handleSubmit={handleSubmit} resetTrigger={resetTrigger} />
+        }
         children2={
           <div className="flex flex-col space-y-4">
             {notes
@@ -65,6 +82,7 @@ const Notes = () => {
           </div>
         }
       />
+      <ToastContainer />
     </>
   );
 };

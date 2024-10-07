@@ -1,5 +1,5 @@
 import { Trash2 } from "lucide-react";
-import { limitWords } from "../../utils/limitWords";
+import { limitWords } from "../../lib/helpers/limitWords";
 
 const CardNote = ({ title, date, description, icon }) => {
   return (

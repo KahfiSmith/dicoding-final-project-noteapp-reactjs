@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Input from "../atoms/input";
 import Description from "../atoms/description";
 import Button from "../atoms/button";
 
-const FormInput = ({ handleSubmit }) => {
+const FormInput = ({ handleSubmit, resetTrigger }) => {
   const [inputValue, setInputValue] = useState("");
   const [inputDescription, setInputDescription] = useState("");
   const handleChange = (e) => {
@@ -13,6 +13,13 @@ const FormInput = ({ handleSubmit }) => {
   const handleChangeDescription = (e) => {
     setInputDescription(e.target.value);
   };
+
+  useEffect(() => {
+    if (resetTrigger) {
+      setInputValue("");
+      setInputDescription("");
+    }
+  }, [resetTrigger]);
 
   return (
     <form
@@ -29,7 +36,7 @@ const FormInput = ({ handleSubmit }) => {
         onChange={handleChangeDescription}
         placeholder="Masukkan deskripsi"
       />
-      <Button type="submit"/>
+      <Button type="submit" />
     </form>
   );
 };
