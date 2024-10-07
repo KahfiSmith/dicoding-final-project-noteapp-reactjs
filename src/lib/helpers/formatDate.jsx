@@ -1,9 +1,9 @@
-export const formatDate = (tanggal) => {
+export const formatDate = (date) => {
   const options = {
     weekday: "long",
-    day: "numeric",
-    month: "long",
     year: "numeric",
-  };
-  return new Intl.DateTimeFormat("id-ID", options).format(new Date(tanggal));
-};
+    month: "long",
+    day: "numeric"
+  }
+  return new Date(date).toLocaleDateString("id-ID", options)
+}
