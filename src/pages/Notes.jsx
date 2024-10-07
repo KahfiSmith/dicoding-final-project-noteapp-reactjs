@@ -1,14 +1,14 @@
+import { Archive, ArchiveRestore, Trash2 } from "lucide-react";
 import { useState } from "react";
-import CardNote from "../components/molecules/CardNote";
-import HeaderNote from "../components/atoms/Header";
-import Layout from "../layouts";
-import FormInput from "../components/molecules/FormInput";
-import { Archive, ArchiveRestore } from "lucide-react";
-import { notesData as initialNotesData } from "../lib/utils/initialDataNotes";
-import { generateNoteId } from "../lib/utils/generateNoteId";
-import { formatDate } from "../lib/helpers/formatDate";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import HeaderNote from "../components/atoms/Header";
+import CardNote from "../components/molecules/CardNote";
+import FormInput from "../components/molecules/FormInput";
+import Layout from "../layouts";
+import { formatDate } from "../lib/helpers/formatDate";
+import { generateNoteId } from "../lib/utils/generateNoteId";
+import { initialNotesData } from "../lib/utils/initialDataNotes";
 
 const Notes = () => {
   const [notes, setNotes] = useState(initialNotesData);
@@ -19,14 +19,15 @@ const Notes = () => {
     e.preventDefault();
 
     const newNote = {
-      id: generateNoteId(notes),
+      id: generateNoteId(),
       title,
       body: description,
       archived: false,
       createdAt: formatDate(new Date()),
     };
 
-    setNotes([...notes, newNote]);
+    setNotes((prevNotes) => [...prevNotes, newNote]);
+    console.log(newNote);
 
     toast.success("Catatan berhasil ditambahkan!", {
       position: "top-right",
@@ -41,6 +42,41 @@ const Notes = () => {
     setResetTrigger((prev) => !prev);
   };
 
+  const handleArchive = (id) => {
+    setNotes((prevNotes) =>
+      prevNotes.map((note) =>
+        note.id === id ? { ...note, archived: true } : note
+      )
+    );
+    toast.info("Catatan berhasil diarsipkan!", {
+      position: "top-right",
+      autoClose: 3000,
+    });
+  };
+
+  const handleRestore = (id) => {
+    setNotes((prevNotes) =>
+      prevNotes.map((note) =>
+        note.id === id ? { ...note, archived: false } : note
+      )
+    );
+    toast.success("Catatan berhasil dikembalikan!", {
+      position: "top-right",
+      autoClose: 3000,
+    });
+  };
+
+  const handleDelete = (id) => {
+    setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
+    toast.error("Catatan berhasil dihapus!", {
+      position: "top-right",
+      autoClose: 3000,
+    });
+  };
+
+  const activeNotes = notes.filter((note) => !note.archived);
+  const archivedNotes = notes.filter((note) => note.archived);
+
   return (
     <>
       <HeaderNote
@@ -53,32 +89,54 @@ const Notes = () => {
         }
         children2={
           <div className="flex flex-col space-y-4">
-            {notes
-              .filter((note) => !note.archived)
-              .map((note) => (
+            {activeNotes.length > 0 ? (
+              activeNotes.map((note) => (
                 <CardNote
                   key={note.id}
                   title={note.title}
                   date={note.createdAt}
                   description={note.body}
-                  icon={<Archive />}
+                  icon={
+                    <div className="flex space-x-2">
+                      <button onClick={() => handleArchive(note.id)}>
+                        <Archive />
+                      </button>
+                      <button onClick={() => handleDelete(note.id)}>
+                        <Trash2 />
+                      </button>
+                    </div>
+                  }
                 />
-              ))}
+              ))
+            ) : (
+              <p>Tidak ada catatan</p> 
+            )}
           </div>
         }
         children3={
           <div className="flex flex-col space-y-4">
-            {notes
-              .filter((note) => note.archived)
-              .map((note) => (
+            {archivedNotes.length > 0 ? (
+              archivedNotes.map((note) => (
                 <CardNote
                   key={note.id}
                   title={note.title}
                   date={note.createdAt}
                   description={note.body}
-                  icon={<ArchiveRestore />}
+                  icon={
+                    <div className="flex space-x-2">
+                      <button onClick={() => handleRestore(note.id)}>
+                        <ArchiveRestore />
+                      </button>
+                      <button onClick={() => handleDelete(note.id)}>
+                        <Trash2 />
+                      </button>
+                    </div>
+                  }
                 />
-              ))}
+              ))
+            ) : (
+              <p>Tidak ada catatan yang diarsipkan</p>
+            )}
           </div>
         }
       />

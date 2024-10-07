@@ -1,4 +1,3 @@
-import { Trash2 } from "lucide-react";
 import { limitWords } from "../../lib/helpers/limitWords";
 
 const CardNote = ({ title, date, description, icon }) => {
@@ -8,7 +7,6 @@ const CardNote = ({ title, date, description, icon }) => {
       <p className="mb-4 text-sm">{date}</p>
       <p className="mb-10">{limitWords(description, 20)}</p>
       <div className="flex justify-end space-x-4 text-slate-500">
-        <Trash2 className="cursor-pointer" />
         {icon}
       </div>
     </div>
